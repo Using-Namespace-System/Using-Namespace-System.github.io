@@ -3,44 +3,43 @@
     <title>Using-Namespace-System.github.io</title>
     <link href="https://using-namespace-system.github.io/feed.xml" rel="self" />
     <link href="https://using-namespace-system.github.io" />
-    <updated>2024-01-08T21:03:37-05:00</updated>
+    <updated>2024-01-11T05:30:22-05:00</updated>
     <author>
         <name>Brian Recktenwall-Calvet</name>
     </author>
     <id>https://using-namespace-system.github.io</id>
 
     <entry>
-        <title>Natural Language Processing[1]: Term-Document Matrix</title>
+        <title>Natural Language Processing[1:Code]: Term-Document Matrix</title>
         <author>
             <name>Brian Recktenwall-Calvet</name>
         </author>
         <link href="https://using-namespace-system.github.io/natural-language-processing-1-term-document-matrix.html"/>
         <id>https://using-namespace-system.github.io/natural-language-processing-1-term-document-matrix.html</id>
 
-        <updated>2024-01-08T21:03:37-05:00</updated>
+        <updated>2024-01-11T05:30:22-05:00</updated>
             <summary>
                 <![CDATA[
-                    This is the first in a series of posts on extracting word representations using statistical language modeling techniques. This first installment includes rudimentary corpus preprocessing, tokenization, and vectorization. The corpus is a public domain dataset of a million news headlines from the Australian Broadcasting Corporation&hellip;
+                    This is the first in a series of posts on extracting word representations using statistical language modeling techniques. This first installment includes rudimentary corpus preprocessing, tokenization, vectorization, and inferences within the vector space model. The corpus is a public domain dataset of a million news&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+                <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">This is the first in a series of posts on extracting word representations using statistical language modeling techniques. This first installment includes rudimentary corpus preprocessing, tokenization, and vectorization. The corpus is a public domain dataset of a million news headlines from the Australian Broadcasting Corporation between 2003 and 2021.</span></div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>All code blocks are included in this document and the first block includes the imports used in this project.</p>
+<p>This is the first in a series of posts on extracting word representations using statistical language modeling techniques. This first installment includes rudimentary corpus preprocessing, tokenization, vectorization, and inferences within the vector space model. The corpus is a public domain dataset of a million news headlines from the Australian Broadcasting Corporation between 2003 and 2021.</p>
+<p>All code blocks for this part of the project are included in this document. The first block includes the imports used in this part of the project.</p>
+<p><a href="https://github.com/Using-Namespace-System/Syntagmatic-And-Paradigmatic-Word-Associations.git">https://github.com/Using-Namespace-System/Syntagmatic-And-Paradigmatic-Word-Associations.git</a></p>
+<p>The Whole series can be cloned from the link above into a dev container and the configs will include the necessary dependencies.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3">
@@ -63,23 +62,24 @@
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child"> </div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt"> </div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Preprocessing the corpus is simplified to filtering out short headlines, small words, and stop-words. Each action is completed in pandas, I believe this may improve readability. The documents are exploded into a single series representing the whole corpus from here stop-words can be filtered out. No further sanitation is performed.</p>
+<p>Preprocessing the corpus is simplified to filtering out short headlines, small words, and stop-words. Each action is completed in pandas, I believe this may improve readability. The documents are exploded into a single series representing the whole corpus. From here stop-words can be filtered out. No further sanitation is performed.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3">
@@ -93,9 +93,7 @@
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
 
 <span class="c1">#use random subset of corpus</span>
-<span class="c1">#df=df.sample(frac=0.0016).reset_index()</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mf">0.50</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1">#flatten all words into single series</span>
 <span class="n">ex</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s1">'tokenized'</span><span class="p">)</span>
@@ -114,20 +112,14 @@
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt"> </div>
-<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Tokenization of the corpus is performed by creating forward and backwards lookup dictionaries. Each unique word is represented as a unique number. This is a very simple method of tokenization.</p>
-</div>
+<div class="jp-InputPrompt jp-InputArea-prompt"><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Tokenization of the corpus is performed by creating forward and backwards lookup dictionaries. Each unique word is represented as a unique number. This is a very simple method of tokenization.</span></div>
 </div>
 </div>
 </div>
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3">
@@ -156,7 +148,7 @@
 <span class="n">docs</span> <span class="o">=</span> <span class="n">encode</span><span class="o">.</span><span class="n">tokenized</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">tuple</span><span class="p">)</span>
 
 <span class="c1">#match up document indexes for reverse lookup</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">docs</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">docs</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">docs</span> <span class="o">=</span> <span class="n">docs</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s1">'tokenized'</span><span class="p">]</span>
 </pre>
 </div>
@@ -167,18 +159,17 @@
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt"> </div>
+<div class="jp-InputPrompt jp-InputArea-prompt"><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">In its simplest form the word vector for each term would be the one-hot(binary) encoding of the documents they are (1) and are not (0) present in. Likewise, the transform is comprised of document-word vectors where each is a one-hot encoding of the terms in the corpus that are and are not present in a document.</span></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Vectorization here is done in its simplest form. The word vector for each term is the one-hot encoding of the documents they are and are not present in. The transform is comprised of document-word vectors where each is a one-hot encoding of the terms in the corpus that are and are not present in a document.</p>
+<p>In this instance the word vector is a count vector. This is similar to one-hot but is able to convey how many times the term occurred in the document.</p>
+<p>For the news headline dataset, document-wise term repetition is minimal and the statistical weight it provides is negligible.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -211,7 +202,7 @@
 <span class="n">sparse_word_doc_matrix</span> <span class="o">=</span> <span class="n">csr_array</span><span class="p">((</span><span class="n">doc_word_count</span><span class="p">[</span><span class="mi">2</span><span class="p">],(</span><span class="n">doc_word_count</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">doc_word_count</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">encoded_docs</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
 <span class="c1">#visualize sparse matrix</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
 <span class="n">sparse_word_doc_matrix_visualization</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">sparse_word_doc_matrix_visualization</span><span class="o">.</span><span class="n">spy</span><span class="p">(</span><span class="n">sparse_word_doc_matrix</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">0.007</span><span class="p">,</span> <span class="n">aspect</span> <span class="o">=</span> <span class="s1">'auto'</span><span class="p">)</span>
 
@@ -227,42 +218,14 @@
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt"> </div>
-<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The visualization below shows the words (y-axis) and the documents (x-axis) they are in.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt"> </div>
-<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<figure class="post__image"><img loading="lazy"  src="https://using-namespace-system.github.io/media/posts/2/sparse_word_doc_matrix.png" alt="" width="1244" height="1221" sizes="100vw" srcset="https://using-namespace-system.github.io/media/posts/2/responsive/sparse_word_doc_matrix-xs.png 300w ,https://using-namespace-system.github.io/media/posts/2/responsive/sparse_word_doc_matrix-sm.png 480w ,https://using-namespace-system.github.io/media/posts/2/responsive/sparse_word_doc_matrix-md.png 768w ,https://using-namespace-system.github.io/media/posts/2/responsive/sparse_word_doc_matrix-lg.png 1024w ,https://using-namespace-system.github.io/media/posts/2/responsive/sparse_word_doc_matrix-xl.png 1360w ,https://using-namespace-system.github.io/media/posts/2/responsive/sparse_word_doc_matrix-2xl.png 1600w"></figure>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt"> </div>
-<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The words that occur together often in the corpus also, as word vectors, are closer together in this 1200000 dimensional vector space. This is demonstrated in the table below.</p>
-</div>
+<div class="jp-InputPrompt jp-InputArea-prompt"><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">The visualization below shows the words (y-axis) and the documents (x-axis) they are in. Across 600000 documents the terms in the corpus that re-occur more regularly form an interesting pattern of lines.<br></span><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"><br>Out[ ]:<br><br></span><figure class="post__image"><img loading="lazy"  style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);" src="https://using-namespace-system.github.io/media/posts/2/sparse_matrix.png" alt="" width="848" height="818" sizes="100vw" srcset="https://using-namespace-system.github.io/media/posts/2/responsive/sparse_matrix-xs.png 300w ,https://using-namespace-system.github.io/media/posts/2/responsive/sparse_matrix-sm.png 480w ,https://using-namespace-system.github.io/media/posts/2/responsive/sparse_matrix-md.png 768w ,https://using-namespace-system.github.io/media/posts/2/responsive/sparse_matrix-lg.png 1024w ,https://using-namespace-system.github.io/media/posts/2/responsive/sparse_matrix-xl.png 1360w ,https://using-namespace-system.github.io/media/posts/2/responsive/sparse_matrix-2xl.png 1600w"></figure><br><br><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">The words that occur together often in the corpus also, as word vectors, are closer together in this 600000 dimensional vector space. This is demonstrated in the table below.<br><br></span><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">In [ ]:</span></div>
 </div>
 </div>
 </div>
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"> </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3">
@@ -272,9 +235,9 @@
 
 <span class="c1">#displaying slice of matrix with highest similarity scores</span>
 
-<span class="n">similarity_matrix_compressed</span> <span class="o">=</span> <span class="n">similarity_matrix</span><span class="p">[(</span><span class="o">-</span><span class="n">similarity_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="mi">20</span><span class="p">]]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="n">similarity_matrix_compressed</span> <span class="o">=</span> <span class="n">similarity_matrix</span><span class="p">[(</span><span class="o">-</span><span class="n">similarity_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="mi">6</span><span class="p">]]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="o">-</span><span class="n">similarity_matrix_compressed</span><span class="p">)</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)[:</span><span class="mi">20</span><span class="p">,:</span><span class="mi">20</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">dictionary_lookup</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="o">-</span><span class="n">similarity_matrix_compressed</span><span class="p">)</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)[:</span><span class="mi">6</span><span class="p">,:</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">dictionary_lookup</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
 </pre>
 </div>
 </div>
@@ -282,7 +245,6 @@
 </div>
 </div>
 <div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser"> </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
@@ -290,7 +252,7 @@
 <div>
 <table class="dataframe" border="1">
 <thead>
-<tr style="text-align: right;">
+<tr>
 <th> </th>
 <th>0</th>
 <th>1</th>
@@ -298,20 +260,6 @@
 <th>3</th>
 <th>4</th>
 <th>5</th>
-<th>6</th>
-<th>7</th>
-<th>8</th>
-<th>9</th>
-<th>10</th>
-<th>11</th>
-<th>12</th>
-<th>13</th>
-<th>14</th>
-<th>15</th>
-<th>16</th>
-<th>17</th>
-<th>18</th>
-<th>19</th>
 </tr>
 </thead>
 <tbody>
@@ -323,20 +271,6 @@
 <td>says</td>
 <td>court</td>
 <td>nsw</td>
-<td>australia</td>
-<td>govt</td>
-<td>council</td>
-<td>fire</td>
-<td>australian</td>
-<td>qld</td>
-<td>sydney</td>
-<td>plan</td>
-<td>death</td>
-<td>water</td>
-<td>health</td>
-<td>crash</td>
-<td>back</td>
-<td>coast</td>
 </tr>
 <tr>
 <th>1</th>
@@ -345,21 +279,7 @@
 <td>charged</td>
 <td>govt</td>
 <td>man</td>
-<td>police</td>
-<td>day</td>
-<td>urged</td>
-<td>plan</td>
-<td>house</td>
-<td>open</td>
-<td>north</td>
-<td>man</td>
-<td>council</td>
-<td>police</td>
-<td>plan</td>
-<td>mental</td>
-<td>fatal</td>
-<td>hits</td>
-<td>gold</td>
+<td>rural</td>
 </tr>
 <tr>
 <th>2</th>
@@ -368,44 +288,16 @@
 <td>police</td>
 <td>minister</td>
 <td>accused</td>
-<td>rural</td>
-<td>south</td>
-<td>nsw</td>
-<td>new</td>
-<td>crews</td>
-<td>market</td>
-<td>govt</td>
 <td>police</td>
-<td>water</td>
-<td>man</td>
-<td>restrictions</td>
-<td>service</td>
-<td>car</td>
-<td>bounce</td>
-<td>north</td>
 </tr>
 <tr>
 <th>3</th>
 <td>probe</td>
 <td>police</td>
 <td>court</td>
-<td>trump</td>
+<td>australia</td>
 <td>face</td>
 <td>govt</td>
-<td>coronavirus</td>
-<td>qld</td>
-<td>considers</td>
-<td>police</td>
-<td>dollar</td>
-<td>rural</td>
-<td>hobart</td>
-<td>govt</td>
-<td>toll</td>
-<td>council</td>
-<td>minister</td>
-<td>plane</td>
-<td>fight</td>
-<td>sunshine</td>
 </tr>
 <tr>
 <th>4</th>
@@ -415,365 +307,15 @@
 <td>new</td>
 <td>told</td>
 <td>country</td>
-<td>new</td>
-<td>vic</td>
-<td>water</td>
-<td>man</td>
-<td>south</td>
-<td>central</td>
-<td>western</td>
-<td>new</td>
-<td>inquest</td>
-<td>supply</td>
-<td>new</td>
-<td>dies</td>
-<td>track</td>
-<td>nsw</td>
 </tr>
 <tr>
 <th>5</th>
 <td>search</td>
-<td>australia</td>
-<td>jailed</td>
-<td>australia</td>
-<td>faces</td>
-<td>hour</td>
-<td>live</td>
-<td>says</td>
-<td>land</td>
-<td>threat</td>
-<td>year</td>
-<td>police</td>
-<td>charged</td>
-<td>basin</td>
-<td>charged</td>
-<td>govt</td>
-<td>services</td>
-<td>killed</td>
-<td>plan</td>
-<td>south</td>
-</tr>
-<tr>
-<th>6</th>
-<td>car</td>
 <td>york</td>
-<td>dies</td>
-<td>labor</td>
-<td>murder</td>
+<td>jailed</td>
+<td>trump</td>
+<td>faces</td>
 <td>coast</td>
-<td>test</td>
-<td>plan</td>
-<td>seeks</td>
-<td>govt</td>
-<td>share</td>
-<td>health</td>
-<td>nsw</td>
-<td>backs</td>
-<td>court</td>
-<td>murray</td>
-<td>qld</td>
-<td>police</td>
-<td>court</td>
-<td>west</td>
-</tr>
-<tr>
-<th>7</th>
-<td>death</td>
-<td>council</td>
-<td>missing</td>
-<td>union</td>
-<td>high</td>
-<td>new</td>
-<td>india</td>
-<td>local</td>
-<td>says</td>
-<td>destroys</td>
-<td>new</td>
-<td>new</td>
-<td>morning</td>
-<td>murray</td>
-<td>rises</td>
-<td>new</td>
-<td>indigenous</td>
-<td>man</td>
-<td>urged</td>
-<td>police</td>
-</tr>
-<tr>
-<th>8</th>
-<td>officer</td>
-<td>year</td>
-<td>accused</td>
-<td>could</td>
-<td>front</td>
-<td>coronavirus</td>
-<td>world</td>
-<td>new</td>
-<td>plans</td>
-<td>nsw</td>
-<td>china</td>
-<td>government</td>
-<td>briefing</td>
-<td>group</td>
-<td>probe</td>
-<td>use</td>
-<td>funding</td>
-<td>driver</td>
-<td>get</td>
-<td>mid</td>
-</tr>
-<tr>
-<th>9</th>
-<td>hunt</td>
-<td>nsw</td>
-<td>guilty</td>
-<td>government</td>
-<td>hears</td>
-<td>government</td>
-<td>cup</td>
-<td>fed</td>
-<td>city</td>
-<td>school</td>
-<td>first</td>
-<td>south</td>
-<td>airport</td>
-<td>says</td>
-<td>woman</td>
-<td>irrigators</td>
-<td>says</td>
-<td>road</td>
-<td>says</td>
-<td>man</td>
-</tr>
-<tr>
-<th>10</th>
-<td>crash</td>
-<td>coronavirus</td>
-<td>car</td>
-<td>council</td>
-<td>case</td>
-<td>covid</td>
-<td>says</td>
-<td>funding</td>
-<td>backs</td>
-<td>suspicious</td>
-<td>shares</td>
-<td>election</td>
-<td>fire</td>
-<td>housing</td>
-<td>coroner</td>
-<td>says</td>
-<td>system</td>
-<td>two</td>
-<td>govt</td>
-<td>central</td>
-</tr>
-<tr>
-<th>11</th>
-<td>arrest</td>
-<td>south</td>
-<td>arrested</td>
-<td>opposition</td>
-<td>charges</td>
-<td>north</td>
-<td>cricket</td>
-<td>funds</td>
-<td>rejects</td>
-<td>factory</td>
-<td>man</td>
-<td>country</td>
-<td>new</td>
-<td>health</td>
-<td>investigate</td>
-<td>nsw</td>
-<td>govt</td>
-<td>highway</td>
-<td>australia</td>
-<td>east</td>
-</tr>
-<tr>
-<th>12</th>
-<td>murder</td>
-<td>hospital</td>
-<td>death</td>
-<td>report</td>
-<td>supreme</td>
-<td>cases</td>
-<td>china</td>
-<td>act</td>
-<td>urged</td>
-<td>service</td>
-<td>says</td>
-<td>western</td>
-<td>harbour</td>
-<td>government</td>
-<td>suspicious</td>
-<td>residents</td>
-<td>workers</td>
-<td>injured</td>
-<td>work</td>
-<td>cyclone</td>
-</tr>
-<tr>
-<th>13</th>
-<td>shooting</td>
-<td>centre</td>
-<td>crash</td>
-<td>wont</td>
-<td>alleged</td>
-<td>sydney</td>
-<td>covid</td>
-<td>defends</td>
-<td>rise</td>
-<td>home</td>
-<td>wins</td>
-<td>water</td>
-<td>shooting</td>
-<td>public</td>
-<td>penalty</td>
-<td>urged</td>
-<td>hospital</td>
-<td>dead</td>
-<td>win</td>
-<td>council</td>
-</tr>
-<tr>
-<th>14</th>
-<td>say</td>
-<td>years</td>
-<td>stabbing</td>
-<td>group</td>
-<td>appeal</td>
-<td>premier</td>
-<td>first</td>
-<td>water</td>
-<td>rates</td>
-<td>sydney</td>
-<td>chinese</td>
-<td>outback</td>
-<td>south</td>
-<td>rejects</td>
-<td>baby</td>
-<td>qld</td>
-<td>care</td>
-<td>truck</td>
-<td>new</td>
-<td>qld</td>
-</tr>
-<tr>
-<th>15</th>
-<td>seek</td>
-<td>says</td>
-<td>found</td>
-<td>expert</td>
-<td>police</td>
-<td>drought</td>
-<td>western</td>
-<td>accused</td>
-<td>mayor</td>
-<td>residents</td>
-<td>team</td>
-<td>says</td>
-<td>melbourne</td>
-<td>back</td>
-<td>murder</td>
-<td>farmers</td>
-<td>nsw</td>
-<td>bus</td>
-<td>school</td>
-<td>new</td>
-</tr>
-<tr>
-<th>16</th>
-<td>nsw</td>
-<td>home</td>
-<td>attack</td>
-<td>must</td>
-<td>sex</td>
-<td>fire</td>
-<td>zealand</td>
-<td>federal</td>
-<td>rate</td>
-<td>season</td>
-<td>killed</td>
-<td>man</td>
-<td>league</td>
-<td>opposition</td>
-<td>custody</td>
-<td>pipeline</td>
-<td>rural</td>
-<td>woman</td>
-<td>police</td>
-<td>sun</td>
-</tr>
-<tr>
-<th>17</th>
-<td>fatal</td>
-<td>govt</td>
-<td>assault</td>
-<td>health</td>
-<td>death</td>
-<td>election</td>
-<td>news</td>
-<td>fire</td>
-<td>development</td>
-<td>new</td>
-<td>government</td>
-<td>hour</td>
-<td>woman</td>
-<td>management</td>
-<td>guilty</td>
-<td>price</td>
-<td>boost</td>
-<td>probe</td>
-<td>bring</td>
-<td>found</td>
-</tr>
-<tr>
-<th>18</th>
-<td>new</td>
-<td>deal</td>
-<td>child</td>
-<td>police</td>
-<td>woman</td>
-<td>farmers</td>
-<td>england</td>
-<td>rejects</td>
-<td>budget</td>
-<td>ban</td>
-<td>day</td>
-<td>far</td>
-<td>siege</td>
-<td>labor</td>
-<td>family</td>
-<td>bans</td>
-<td>report</td>
-<td>pilot</td>
-<td>hit</td>
-<td>afl</td>
-</tr>
-<tr>
-<th>19</th>
-<td>drug</td>
-<td>covid</td>
-<td>killed</td>
-<td>chief</td>
-<td>drug</td>
-<td>west</td>
-<td>one</td>
-<td>boost</td>
-<td>govt</td>
-<td>danger</td>
-<td>coronavirus</td>
-<td>coast</td>
-<td>found</td>
-<td>nsw</td>
-<td>driver</td>
-<td>boost</td>
-<td>plan</td>
-<td>victim</td>
-<td>pay</td>
-<td>missing</td>
 </tr>
 </tbody>
 </table>
@@ -783,7 +325,116 @@
 </div>
 </div>
 </div>
-</main>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt"><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"><br>Similarly, the documents with the most similarities are closer together in the vector space.<br><br></span></div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><span class="c1">#previewing document similarity</span>
+
+<span class="n">doc_similarity_matrix</span>  <span class="o">=</span> <span class="n">sparse_word_doc_matrix</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">sparse_word_doc_matrix</span>
+
+<span class="c1">#displaying slice of matrix with highest similarity scores</span>
+
+<span class="n">doc_similarity_matrix_compressed</span> <span class="o">=</span> <span class="n">doc_similarity_matrix</span><span class="p">[(</span><span class="o">-</span><span class="n">doc_similarity_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="mi">6</span><span class="p">]]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="o">-</span><span class="n">doc_similarity_matrix_compressed</span><span class="p">)</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)[:</span><span class="mi">6</span><span class="p">,:</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">headline_text</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" tabindex="0" data-mime-type="text/html">
+<div>
+<table class="dataframe" border="1">
+<thead>
+<tr>
+<th> </th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>man bites police officer on new years day in a...</td>
+<td>police search for man over police van crash</td>
+<td>police search for man 'involved in police chas...</td>
+<td>police union backs new police leadership team</td>
+<td>new south wales government setting up new poli...</td>
+<td>police investigate report of man impersonating...</td>
+</tr>
+<tr>
+<th>1</th>
+<td>new half day public holidays on christmas eve ...</td>
+<td>police search for man 'involved in police chas...</td>
+<td>police search for man over police van crash</td>
+<td>police union demands answers over appointment ...</td>
+<td>new south wales records 1485 new cases of covi...</td>
+<td>police charge man for impersonating officer</td>
+</tr>
+<tr>
+<th>2</th>
+<td>istanbul police arrest new years day gunman and</td>
+<td>police search for police assault suspect</td>
+<td>police search for man over fatal sydney stabbing</td>
+<td>police union slams police commissioner for cho...</td>
+<td>new south wales covid coronavirus five new loc...</td>
+<td>queensland police describe man police believe</td>
+</tr>
+<tr>
+<th>3</th>
+<td>police make new years day drink driving arrests</td>
+<td>police investigate report of man impersonating...</td>
+<td>police investigate report of man impersonating...</td>
+<td>nt police urge examination of new police numbers</td>
+<td>new president for new south wales farmers</td>
+<td>man charged with impersonating police officer</td>
+</tr>
+<tr>
+<th>4</th>
+<td>new police information about tasmanian man mis...</td>
+<td>queensland police describe man police believe</td>
+<td>police to search sydney creek for missing man</td>
+<td>wa police union president harry arnott stood a...</td>
+<td>a new dairy body in new south wales has received</td>
+<td>police search for man 'involved in police chas...</td>
+</tr>
+<tr>
+<th>5</th>
+<td>brother of man fatally stabbed on new years da...</td>
+<td>police investigation after man struck by polic...</td>
+<td>queensland police describe man police believe</td>
+<td>wa police commissioner backs down on new polic...</td>
+<td>new south wales retains top ranking in new two...</td>
+<td>man charge with impersonating police officer a...</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
             ]]>
         </content>
     </entry>
