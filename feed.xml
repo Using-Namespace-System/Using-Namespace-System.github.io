@@ -3,7 +3,7 @@
     <title>Using-Namespace-System.github.io</title>
     <link href="https://using-namespace-system.github.io/feed.xml" rel="self" />
     <link href="https://using-namespace-system.github.io" />
-    <updated>2024-08-11T16:52:12-04:00</updated>
+    <updated>2024-08-11T18:16:06-04:00</updated>
     <author>
         <name>Brian Recktenwall-Calvet</name>
     </author>
@@ -91,7 +91,7 @@ lambda input: tf.vectorized_map(
 </code></pre>
 
   <p>
-    Using the TensorFlow qubit device in Pennylane opens up the ability to apply quantum circuits as vector operations in TensorFlow. My approach was to use a custom Keras layer and and shape the input so that the operation can be applied across a whole batch of images at once.&nbsp;The painful process of trying to gather data and run experiments went from waiting hours to train on larger samples under&nbsp;<strong>two minutes</strong> to simultaneously preprocess and train 8 different models, each on the full dataset. On a larger scale this allowed the larger experiment below of preprocessing and training 576 different variations in 2 hours.
+    Using the TensorFlow qubit device in Pennylane opens up the ability to apply quantum circuits as vector operations in TensorFlow. Using a custom Keras layer and and appropriately reshaping the input allowed the operation to be applied across a whole batch of images at once. This optimization allowed experiments to expand to much larger scales. Instead of waiting hours to process and then train on a larger sample we now are able to process and train <strong>576 different filter variations on the full dataset in under 2 hours</strong>.
   </p>
 
     <figure class="post__image post__image--center">
