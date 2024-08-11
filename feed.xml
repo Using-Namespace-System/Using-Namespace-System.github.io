@@ -3,7 +3,7 @@
     <title>Using-Namespace-System.github.io</title>
     <link href="https://using-namespace-system.github.io/feed.xml" rel="self" />
     <link href="https://using-namespace-system.github.io" />
-    <updated>2024-08-11T12:52:20-04:00</updated>
+    <updated>2024-08-11T16:52:12-04:00</updated>
     <author>
         <name>Brian Recktenwall-Calvet</name>
     </author>
@@ -98,7 +98,7 @@ lambda input: tf.vectorized_map(
       <img loading="lazy" src="https://using-namespace-system.github.io/media/posts/6/Screenshot-2024-08-11-092818.png" height="482" width="1230" alt=""  sizes="100vw" srcset="https://using-namespace-system.github.io/media/posts/6/responsive/Screenshot-2024-08-11-092818-xs.png 300w ,https://using-namespace-system.github.io/media/posts/6/responsive/Screenshot-2024-08-11-092818-sm.png 480w ,https://using-namespace-system.github.io/media/posts/6/responsive/Screenshot-2024-08-11-092818-md.png 768w ,https://using-namespace-system.github.io/media/posts/6/responsive/Screenshot-2024-08-11-092818-lg.png 1024w ,https://using-namespace-system.github.io/media/posts/6/responsive/Screenshot-2024-08-11-092818-xl.png 1360w ,https://using-namespace-system.github.io/media/posts/6/responsive/Screenshot-2024-08-11-092818-2xl.png 1600w">
       <figcaption>576 variations in 2 hours</figcaption>
     </figure>
-<div><div class="post__iframe"><iframe loading="lazy" src='https://view.officeapps.live.com/op/embed.aspx?src=[https://using-namespace-system.github.io/media/files/QML_QOSF.pptx]' width="476px" height="288px" frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office</a>.</iframe></div></div>
+<div><div class="post__iframe"><iframe loading="lazy" src='https://view.officeapps.live.com/op/view.aspx?src=https://using-namespace-system.github.io/media/files/QML_QOSF.pptx' width="476px" height="288px" frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office</a>.</iframe></div></div>
 
   <p>
     Our ongoing experimentation is public on the TheOpenSI's GitHub repository <a href="https://github.com/TheOpenSI/QML-QPF" target="_blank">QML-QPF</a>&nbsp;
